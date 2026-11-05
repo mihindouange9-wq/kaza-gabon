@@ -1,0 +1,1 @@
+window.KAZA_CONTACT = {"whatsapp":"24177985553","whatsappAffiche":"077 98 55 53","courriel":"","site":"kaza.ga"};
