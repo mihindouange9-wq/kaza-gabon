@@ -59,7 +59,7 @@ for (const [nom, largeur, hauteur, tactile] of [['bureau', 1440, 900, false], ['
   if (reservation !== 'ok') problemes.push('réservation : ' + reservation);
   const recherche = await evaluer(`(() => { const f = document.getElementById('recherche'); f.destination.value = 'Libreville'; f.requestSubmit(); const res = document.getElementById('resultat'); const vis = [...document.querySelectorAll('.annonce')].filter((a) => !a.hidden).length; return res.hasAttribute('data-visible') && vis === 2 ? 'ok' : 'résultat ' + res.textContent.slice(0, 40) + ' / ' + vis + ' visibles'; })()`);
   if (recherche !== 'ok') problemes.push('recherche : ' + recherche);
-  problemes.push(...journal.filter((l) => !/favicon|ERR_ABORTED|manifest\.webmanifest/.test(l))); /* le manifeste ne se charge pas en file:// ; il est contrôlé sur l'adresse publiée */
+  problemes.push(...journal.filter((l) => !/favicon|ERR_ABORTED|manifest\.json/.test(l))); /* le manifeste ne se charge pas en file:// ; il est contrôlé sur l'adresse publiée */
   const polices = await evaluer(`[document.fonts.check('600 20px Outfit'), document.fonts.check('400 20px "Plus Jakarta Sans"')]`);
   if (!(polices[0] && polices[1])) problemes.push('polices non chargées ' + JSON.stringify(polices));
   if (problemes.length) { anomalies += problemes.length; console.log(`✗ ${nom} ${largeur}px : ${problemes.join(' | ')}`); }

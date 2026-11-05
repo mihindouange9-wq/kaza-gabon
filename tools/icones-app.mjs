@@ -1,6 +1,6 @@
 /* Icônes d'application (écran d'accueil iPhone et Android) et manifeste : le A de KAZA sur tuile vert forêt, en PNG
    180 (apple-touch-icon), 192 et 512 (manifeste), 512 « maskable » (lettre dans la zone sûre), rendus par Chrome (canvas).
-   Lancer : node tools/icones-app.mjs   (écrit site/assets/icons/*.png et site/manifest.webmanifest) */
+   Lancer : node tools/icones-app.mjs   (écrit site/assets/icons/*.png et site/manifest.json, servi en JSON par Render) */
 import { spawn } from 'node:child_process';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -55,6 +55,6 @@ const manifeste = {
     { src: 'assets/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
   ],
 };
-await writeFile(join(RACINE, 'site', 'manifest.webmanifest'), JSON.stringify(manifeste, null, 2) + '\n');
-console.log('site/manifest.webmanifest écrit');
+await writeFile(join(RACINE, 'site', 'manifest.json'), JSON.stringify(manifeste, null, 2) + '\n');
+console.log('site/manifest.json écrit');
 ws.close(); chrome.kill();
