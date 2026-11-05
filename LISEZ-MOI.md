@@ -37,6 +37,14 @@ Charte graphique professionnelle réalisée par MÉTHODE AURA (novembre 2026) à
 - Contrôle : `node tools/site-verifier.mjs` (bureau 1440, tablette 820, téléphone 390 : débordements, images, textes < 13 px, contrastes, cibles tactiles, révélations, validation des formulaires, recherche, console ; captures dans `tools/captures-site/`). Détecteur impeccable : les signalements restants sont des faux positifs (`clamp()` non lu, police imposée par la charte, fonds décoratifs volontairement rognés).
 - Pour modifier : `node source/site/build.mjs && node tools/site-verifier.mjs` (zéro anomalie sur les trois formats le 5 nov. 2026). Nouvelles photos du client : les déposer à la racine puis `node tools/images-client.mjs`. Les fichiers `PRODUCT.md` et `DESIGN.md` à la racine décrivent le produit et les jetons de design.
 
+## Publication
+
+- **En ligne : https://kaza-gabon.onrender.com** (site statique Render, service `kaza-gabon` créé par l’API le 5 nov. 2026, dossier publié `site/`, sans commande de construction).
+- **Dépôt public : https://github.com/mihindouange9-wq/kaza-gabon** (branche `main`, commits signés MÉTHODE AURA). Le cahier des charges `kaza ideas.pdf` et les captures de contrôle sont exclus par `.gitignore` et ne sont jamais publiés.
+- Mise à jour : modifier `source/`, `node source/site/build.mjs && node tools/site-verifier.mjs`, puis `git commit` et `git push`. **Un push ne redéploie pas forcément** (l’application GitHub de Render n’est pas installée) : relancer `RENDER_API_KEY=… node tools/render-deploy.mjs` (ou `RENDER_KEY_FILE=` vers un fichier hors du dépôt), qui demande un nouveau déploiement et le suit jusqu’à « live ». La clé ne doit jamais être écrite dans le dépôt.
+- En-têtes servis par Render (définis dans `tools/render-deploy.mjs`) : politique de sécurité stricte (scripts et polices du site seulement, aucun script en ligne, d’où `assets/intro.js` et `assets/config.js`), pas d’intégration dans une autre page, HSTS, cache long sur les bibliothèques et les polices.
+- Domaine `kaza.ga` ou autre : à ajouter dans Render (Custom Domains) le jour venu ; l’adresse Render reste valable.
+
 ## Fichiers de travail
 
 | Fichier | Rôle |
