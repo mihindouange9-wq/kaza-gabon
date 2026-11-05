@@ -31,6 +31,12 @@ button { font: inherit; color: inherit; }
 .sombre :focus-visible, .sombre:focus-visible { outline-color: var(--citron); }
 html { scrollbar-color: var(--relief) var(--blanc); scrollbar-width: thin; }
 input, select, textarea { caret-color: var(--foret); }
+/* téléphones : pas de halo bleu au toucher, pas de délai, champs texte/date/nombre sans habillage iOS (largeur et hauteur respectées) */
+a, button, label, .dock a, .pole, .annonce { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+input:not([type="checkbox"]):not([type="radio"]), textarea { -webkit-appearance: none; appearance: none; min-width: 0; display: block; }
+input[type="date"], input[type="number"] { -webkit-appearance: none; appearance: none; width: 100%; min-width: 0; line-height: normal; }
+input[type="date"]::-webkit-date-and-time-value { text-align: left; min-height: 1.4em; }
+select { -webkit-appearance: menulist; appearance: auto; }
 .visuellement-cache { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .evitement { position: absolute; left: 12px; top: -60px; z-index: 100; padding: 10px 16px; background: var(--citron); color: var(--foret); border-radius: var(--r-bouton); font-family: var(--titrage); font-weight: 600; }
 .evitement:focus { top: 12px; }
@@ -66,7 +72,7 @@ input, select, textarea { caret-color: var(--foret); }
 .badge--grand { font-size: 17px; padding: 8px 16px 8px 9px; } .badge--grand svg { width: 26px; height: 26px; }
 
 /* ---------- en-tête ---------- */
-.entete { position: sticky; top: 0; z-index: 50; background: var(--foret); color: var(--blanc); }
+.entete { position: sticky; top: 0; z-index: 50; background: var(--foret); color: var(--blanc); padding-top: env(safe-area-inset-top, 0px); }
 .entete .conteneur { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 72px; }
 .entete .logo { width: 150px; height: auto; }
 .entete .logo--mot { display: none; width: 112px; }
@@ -346,7 +352,8 @@ input, select, textarea { caret-color: var(--foret); }
   .menu .ico { width: 24px; height: 24px; color: var(--citron); }
   .menu .bouton { margin-top: 18px; width: 100%; }
   .heros-fond .trajectoire { display: none; }
-  .heros { padding: 110px 0 170px; min-height: 100svh; }
+  .heros { padding: calc(110px + env(safe-area-inset-top, 0px)) 0 170px; min-height: 100svh; }
+  .menu { inset: calc(72px + env(safe-area-inset-top, 0px)) 0 0; }
   .heros-scene { grid-template-columns: 1fr; }
   .heros-scene .panneau { grid-area: 1 / 1; opacity: 0; transition: opacity 1.1s var(--sortie); }
   .heros-scene .panneau.est-actif { opacity: 1; }
@@ -373,9 +380,9 @@ input, select, textarea { caret-color: var(--foret); }
   .entete .logo { display: none; }
   .entete .logo--mot { display: block; }
   .entete-actions .bouton--citron { min-height: 44px; padding: 8px 16px; font-size: 14px; }
-  .menu { inset: 64px 0 0; }
+  .menu { inset: calc(64px + env(safe-area-inset-top, 0px)) 0 0; }
   .heros-poles { display: none; }
-  .heros { padding: 96px 0 150px; min-height: 100svh; }
+  .heros { padding: calc(96px + env(safe-area-inset-top, 0px)) 0 150px; min-height: 100svh; }
   .heros h1 { font-size: clamp(40px, 11.5vw, 50px); max-width: none; }
   .heros-intro { font-size: 16px; opacity: .9; }
   .heros-pied { bottom: 82px; flex-direction: column; align-items: flex-start; gap: 4px; }

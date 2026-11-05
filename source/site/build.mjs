@@ -86,7 +86,7 @@ const html = `<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KAZA GABON – Logement, hébergement, tourisme, conciergerie et diaspora au Gabon</title>
 <meta name="description" content="KAZA GABON – ÉCO TOURISME : un seul point d’entrée pour trouver un logement, réserver un hébergement, organiser des expériences et commander des services au Gabon, avec un accompagnement dédié à la diaspora.">
 <meta name="theme-color" content="${FORET}">
@@ -94,6 +94,13 @@ const html = `<!doctype html>
 <meta property="og:description" content="Logement, hébergement, tourisme, conciergerie et accompagnement de la diaspora : cinq pôles, un compte, des partenaires vérifiés.">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icons/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="application-name" content="KAZA">
+<meta name="apple-mobile-web-app-title" content="KAZA">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="assets/site.css?v=${version}">
 <script src="assets/intro.js?v=${version}"></script>
 </head>
