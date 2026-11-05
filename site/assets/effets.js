@@ -86,7 +86,7 @@
       .fromTo('.intro-ligne', { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: EASE }, .8)
       .to(avion, { x: 320, y: -260, duration: .7, ease: 'power2.in' }, 1.2)
       .to(avion, { opacity: 0, duration: .2 }, 1.7)
-      .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: .95, ease: 'expo.inOut', onComplete: function () { html.classList.remove('intro'); intro.remove(); if (lenis) lenis.start(); try { sessionStorage.setItem('kaza-intro', '1'); } catch (e) { /* stockage indisponible */ } } }, 1.55);
+      .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: .95, ease: 'expo.inOut', onComplete: function () { html.classList.remove('intro'); intro.remove(); if (lenis) lenis.start(); } }, 1.55);
     depart = 1.75;
   } else { html.classList.remove('intro'); if (intro) intro.remove(); }
 

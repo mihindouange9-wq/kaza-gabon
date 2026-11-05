@@ -1,2 +1,2 @@
-/* Intro une fois par session, sauf mouvement réduit ; filet de sécurité : la classe tombe après 4,5 s si la couche d'effets ne la retire pas. */
-(function () { try { if (!sessionStorage.getItem('kaza-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('intro'); setTimeout(function () { document.documentElement.classList.remove('intro'); }, 4500); } } catch (e) { /* stockage indisponible */ } })();
+/* Intro à chaque chargement de la page (demande du client), sauf mouvement réduit ; filet de sécurité : la classe tombe après 4,5 s si la couche d'effets ne la retire pas. */
+(function () { try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('intro'); setTimeout(function () { document.documentElement.classList.remove('intro'); }, 4500); } } catch (e) { /* stockage indisponible */ } })();
