@@ -1,5 +1,7 @@
 /* KAZA — contenu de la vitrine. Aucun prix n'est affiché (tarifs à confirmer par la fondatrice) ; les hébergements et
-   expériences sont des exemples de démonstration, présentés comme tels sur la page. */
+   expériences sont des exemples de démonstration, présentés comme tels sur la page.
+   Parcours simplifié (6 nov. 2026) : une question à l'entrée (« Que cherchez-vous ? », cinq onglets), un seul panneau
+   de demande qui s'ouvre avec les bons champs, chaque bouton mène à une seule action. */
 
 export const CONTACT = {
   whatsapp: '24177985553',           // WhatsApp de KAZA (077 98 55 53, fourni par le client le 5 nov. 2026), format international sans « + »
@@ -10,12 +12,13 @@ export const CONTACT = {
 
 export const DESTINATIONS = ['Libreville', 'Akanda', 'Pointe-Denis', 'Nyonié', 'Loango', 'Lopé', 'Pongara', 'Ivindo', 'Port-Gentil', 'Franceville', 'Lambaréné', 'Mayumba'];
 
+/* Les cinq pôles, dans l'ordre fixé par la fondatrice. `mode` = panneau de demande ouvert par l'action ; sinon l'action mène à la section. */
 export const POLES = [
-  { cle: 'immo', ancre: 'immo', nom: 'IMMO & VÉRIFIÉ', titre: 'Immobilier et confiance', texte: 'Vente et location longue durée : maisons, appartements, studios, terrains. Annonces, profils et documents vérifiés.' },
-  { cle: 'stay', ancre: 'stay', nom: 'STAY', titre: 'Hébergement de courte durée', texte: 'Appartements meublés, studios, villas, maisons de vacances et résidences partenaires, avec calendrier et avis.' },
-  { cle: 'tourisme', ancre: 'tourisme', nom: 'TOURISME', titre: 'Expériences et écotourisme', texte: 'Excursions, circuits, visites guidées, parcs nationaux, forêts, plages et lagunes, avec des opérateurs partenaires.' },
-  { cle: 'conciergerie', ancre: 'conciergerie', nom: 'CONCIERGERIE', titre: 'Services du quotidien', texte: 'Ménage, chauffeur et transferts, blanchisserie, courses, entretien : à la demande ou en récurrence.' },
-  { cle: 'diaspora', ancre: 'diaspora', nom: 'DIASPORA', titre: 'Préparer son retour', texte: 'Un parcours intégré pour les Gabonais de l’étranger : séjour, hébergement, mobilité, expériences, suivi centralisé.' },
+  { cle: 'immo', ancre: 'immo', nom: 'IMMO & VÉRIFIÉ', titre: 'Louer ou acheter', court: 'Louer ou acheter', action: 'Décrire le bien que je cherche', mode: 'immo', texte: 'Maisons, appartements, studios, terrains : vente et location longue durée, annonces et propriétaires vérifiés.' },
+  { cle: 'stay', ancre: 'stay', nom: 'STAY', titre: 'Dormir quelques nuits', court: 'Dormir', action: 'Voir les hébergements', mode: null, texte: 'Appartements meublés, villas, bungalows et lodges partenaires, pour une nuit ou un mois.' },
+  { cle: 'tourisme', ancre: 'tourisme', nom: 'TOURISME', titre: 'Explorer le Gabon', court: 'Explorer', action: 'Voir les expériences', mode: null, texte: 'Parcs nationaux, lagunes, plages et visites guidées, avec des opérateurs partenaires vérifiés.' },
+  { cle: 'conciergerie', ancre: 'conciergerie', nom: 'CONCIERGERIE', titre: 'Un service au quotidien', court: 'Un service', action: 'Demander un service', mode: 'conciergerie', texte: 'Ménage, chauffeur et transferts, blanchisserie, courses, entretien : une fois ou chaque semaine.' },
+  { cle: 'diaspora', ancre: 'diaspora', nom: 'DIASPORA', titre: 'Revenir au pays', court: 'Revenir au pays', action: 'Préparer mon retour', mode: 'diaspora', texte: 'Vous vivez à l’étranger : un séjour organisé de bout en bout, avec un seul interlocuteur.' },
 ];
 
 export const HEBERGEMENTS = [
@@ -40,6 +43,11 @@ export const SERVICES = [
   { icone: 'rendezvous', nom: 'Services récurrents', texte: 'Prise de rendez-vous et suivi dans votre espace.' },
 ];
 
+export const TYPES_BIEN = ['Appartement', 'Maison ou villa', 'Studio', 'Terrain', 'Bureau ou commerce'];
+export const FREQUENCES = ['Une fois', 'Chaque semaine', 'Chaque mois'];
+export const BESOINS = ['Hébergement', 'Transferts et chauffeur', 'Excursions', 'Services du quotidien'];
+export const PROFILS = ['Propriétaire', 'Agence immobilière', 'Gestionnaire d’hébergements', 'Guide, agence ou opérateur touristique', 'Prestataire de services'];
+
 export const VERIFICATION = [
   { titre: 'Un profil vérifié', texte: 'L’identité du propriétaire, de l’agence ou du prestataire est contrôlée avant toute publication.' },
   { titre: 'Des documents contrôlés', texte: 'Titre, mandat et justificatifs sont examinés par l’équipe KAZA ; les critères sont publiés avec le lancement.' },
@@ -54,20 +62,34 @@ export const PARCOURS = [
 ];
 
 export const PARTENAIRES = [
-  { titre: 'Propriétaires et agences', texte: 'Publiez vos biens à la vente ou à la location, gérez vos annonces et vos échanges.' },
-  { titre: 'Gestionnaires d’hébergements', texte: 'Appartements meublés, villas, résidences : tarifs, disponibilités et réservations dans un espace dédié.' },
-  { titre: 'Guides, agences et opérateurs', texte: 'Excursions, circuits, visites : des fiches d’expérience complètes et des demandes suivies.' },
-  { titre: 'Prestataires de services', texte: 'Ménage, transport, blanchisserie, entretien : zone desservie, disponibilités, évaluations.' },
+  { titre: 'Propriétaires et agences', texte: 'Biens à la vente ou à la location, annonces et échanges.' },
+  { titre: 'Gestionnaires d’hébergements', texte: 'Tarifs, disponibilités et réservations dans un espace dédié.' },
+  { titre: 'Guides, agences et opérateurs', texte: 'Fiches d’expérience complètes et demandes suivies.' },
+  { titre: 'Prestataires de services', texte: 'Zone desservie, disponibilités, évaluations.' },
 ];
 
-export const CONFIANCE = [
-  { titre: 'Le prix avant le paiement', texte: 'Détail du prix, frais éventuels, conditions d’annulation et montant total, toujours affichés avant de payer.' },
-  { titre: 'Des statuts lisibles', texte: 'Demande reçue, validation, paiement, confirmation, rappel : vous savez où en est chaque étape.' },
-  { titre: 'Le paiement avec une responsable', texte: 'Votre réservation arrive sur le WhatsApp de KAZA ; une responsable vous donne les conditions de paiement (Airtel Money, Moov Money, virement ou carte).' },
+/* Comment ça marche : une seule explication pour toute la plateforme (remplace « Réservez en trois étapes » et « Nos engagements »). */
+export const COMMENT = [
+  { titre: 'Vous choisissez et vous envoyez', texte: 'Un hébergement, une expérience, un bien, un service ou un séjour complet : le message part sur le WhatsApp de KAZA, déjà rédigé. Aucun paiement sur le site.' },
+  { titre: 'Une responsable KAZA vous répond', texte: 'Disponibilité, prix détaillé, frais et conditions d’annulation, par écrit, avant toute décision.' },
+  { titre: 'Vous payez en confiance', texte: 'Airtel Money, Moov Money, virement ou carte, selon ce qui vous convient. Profils, documents et biens sont vérifiés.' },
 ];
 
-export const RESERVATION_ETAPES = [
-  { titre: 'Vous validez votre réservation sur le site', texte: 'Le logement ou l’expérience, vos dates, le nombre de voyageurs, votre nom et votre WhatsApp. Aucun paiement à cette étape.' },
-  { titre: 'Votre demande arrive sur le WhatsApp de KAZA', texte: 'WhatsApp s’ouvre avec le message déjà rédigé ; vous l’envoyez d’un geste. Il arrive directement chez l’équipe KAZA.' },
-  { titre: 'Une responsable vous répond avec les conditions de paiement', texte: 'Disponibilité confirmée, prix détaillé, conditions d’annulation et moyen de paiement : Airtel Money, Moov Money, virement ou carte.' },
+/* Le panneau de demande : un seul formulaire, six variantes. `requis` = champs obligatoires de la variante (les champs cachés ne sont jamais exigés). */
+export const MODES = {
+  stay: { pole: 'KAZA STAY', titre: 'Réserver un hébergement', intro: 'Vos dates et vos coordonnées suffisent. Une responsable KAZA confirme la disponibilité, le prix détaillé et le moyen de paiement sur WhatsApp.', bouton: 'Envoyer ma réservation sur WhatsApp', sujet: 'Réservation KAZA STAY', requis: ['hebergement', 'arrivee', 'depart', 'voyageurs', 'nom', 'contact'], contact: 'Votre numéro WhatsApp', message: 'Précisions', aide: 'Heure d’arrivée, enfants, demandes particulières…' },
+  tourisme: { pole: 'KAZA TOURISME', titre: 'Réserver une expérience', intro: 'La date et le nombre de participants suffisent. Une responsable KAZA confirme le programme, le prix et le moyen de paiement sur WhatsApp.', bouton: 'Envoyer ma réservation sur WhatsApp', sujet: 'Réservation KAZA TOURISME', requis: ['experience', 'date', 'participants', 'nom', 'contact'], contact: 'Votre numéro WhatsApp', message: 'Précisions', aide: 'Niveau de marche, enfants, point de départ…' },
+  immo: { pole: 'KAZA IMMO & VÉRIFIÉ', titre: 'Décrire le bien que je cherche', intro: 'L’équipe KAZA vous propose des biens dont le propriétaire, les documents et la fiche ont été contrôlés.', bouton: 'Envoyer ma recherche sur WhatsApp', sujet: 'Recherche KAZA IMMO & VÉRIFIÉ', requis: ['typeBien', 'ville', 'nom', 'contact'], contact: 'Votre numéro WhatsApp', message: 'Précisions', aide: 'Nombre de chambres, quartier préféré, date d’entrée…' },
+  conciergerie: { pole: 'KAZA CONCIERGERIE', titre: 'Demander un service', intro: 'Un prestataire qualifié et un devis écrit avant toute intervention.', bouton: 'Envoyer ma demande sur WhatsApp', sujet: 'Service KAZA CONCIERGERIE', requis: ['service', 'quartier', 'nom', 'contact'], contact: 'Votre numéro WhatsApp', message: 'Précisions', aide: 'Surface, horaires, accès au logement…' },
+  diaspora: { pole: 'KAZA DIASPORA', titre: 'Préparer mon retour au Gabon', intro: 'Décrivez votre séjour : l’équipe KAZA revient vers vous avec une proposition complète, hébergement, transferts, expériences et services.', bouton: 'Envoyer ma demande sur WhatsApp', sujet: 'Demande KAZA DIASPORA', requis: ['pays', 'nom', 'contact'], contact: 'WhatsApp ou courriel', message: 'Ce que vous attendez de ce séjour', aide: 'Dates souples, quartier souhaité, enfants, personnes à mobilité réduite…' },
+  partenaire: { pole: 'Partenaires', titre: 'Devenir partenaire KAZA', intro: 'Dites-nous qui vous êtes : l’équipe KAZA vous explique la vérification et les prochaines étapes.', bouton: 'Envoyer ma demande sur WhatsApp', sujet: 'Demande de partenariat KAZA', requis: ['profil', 'nom', 'contact'], contact: 'WhatsApp ou courriel', message: 'Ce que vous proposez', aide: 'Type de biens, d’hébergements, d’expériences ou de services' },
+};
+
+/* L'écran « Que souhaitez-vous ? » du panneau (quand on arrive par le bouton Réserver de l'en-tête). */
+export const CHOIX = [
+  { mode: 'stay', cle: 'stay', titre: 'Dormir quelques nuits', texte: 'Appartement, villa, bungalow ou lodge partenaire' },
+  { mode: 'tourisme', cle: 'tourisme', titre: 'Vivre une expérience', texte: 'Parcs, lagunes, plages, visites guidées' },
+  { mode: 'immo', cle: 'immo', titre: 'Louer ou acheter un logement', texte: 'Longue durée, biens et propriétaires vérifiés' },
+  { mode: 'conciergerie', cle: 'conciergerie', titre: 'Un service au quotidien', texte: 'Ménage, chauffeur, courses, entretien' },
+  { mode: 'diaspora', cle: 'diaspora', titre: 'Revenir au pays', texte: 'Un séjour organisé de bout en bout, depuis l’étranger' },
 ];

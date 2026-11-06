@@ -40,6 +40,16 @@ Outfit 600 pour les titres (jamais 700), approche −1,5 %, interlignage 1,05 à
 
 Boutons pilule (hauteur 48 px, 44 minimum sur mobile) : principal vert citron sur fond sombre, vert forêt sur fond clair ; secondaire en contour ; un seul plein par écran. Cartes à bordure 1 px filet, rayon 16 px, photo 4:3 en haut, ombre douce avec décalage au survol. Champs à bordure vert gris, rayon 12 px, libellé au-dessus, état actif vert forêt. Icônes linéaires trait 1,8 px, coins ronds, une seule famille. Transitions 150 à 300 ms, sortie exponentielle, pas de rebond.
 
+## Parcours (vitrine, 6 nov. 2026)
+
+Une question à l'entrée, une action par bouton, un seul endroit pour demander. Références : Airbnb (onglets Logements / Expériences au-dessus de la recherche, panneau de réservation qui s'ouvre sur place), Booking (« que cherchez-vous ? » avant tout), GetYourGuide / Evaneos (demande guidée pour un séjour sur mesure).
+
+- **Onglets de recherche** : pilules Outfit 600 13 px espacées, icône du pôle + nom du pôle + sous-titre en langage courant (Plus Jakarta 13 px) ; actif = vert forêt plein, texte blanc cassé, sous-titre vert gris ; rangée défilante sur téléphone avec fondu de 40 px sur le bord où il reste des onglets. Les champs changent avec l'onglet ; un seul bouton vert citron dont le libellé dit l'action (« Voir les hébergements », « Demander ce service », « Préparer mon retour »).
+- **Panneau de demande** : tiroir de 520 px à droite sur ordinateur (fond vert forêt à 55 % + flou 3 px), plein écran sur téléphone ; en-tête avec nom du pôle (12 px espacé), titre Outfit 600 22 px, croix et retour en pastilles de 44 px ; corps défilant seul ; pied collant avec le bouton d'envoi vert citron pleine largeur et une mention 13 px. Résumé de l'objet choisi : vignette 72 × 54, type en capitales espacées, titre, lieu, « Changer ». Écran de choix : cinq rangées icône sur tuile vert forêt + titre 17 px + sous-titre 14 px + flèche. Écran final : coche sur disque vert citron, titre 26 px, bloc vert citron, bouton « Ouvrir WhatsApp », les deux étapes suivantes.
+- **Segment Louer / Acheter** : deux cases dans un cadre vert gris, l'active en vert forêt plein.
+- **Services** : chaque carte de la conciergerie est un bouton (icône sur tuile, nom, ligne, flèche), survol = bordure vert forêt et tuile vert citron.
+- **Comment ça marche** : bande vert citron, titre à gauche, trois étapes numérotées (disque vert forêt), un bouton vert forêt « Réserver maintenant ».
+
 ## Héros immersif (vitrine, 5 nov. 2026)
 
 Référence : sites de voyage plein écran (fitzroy-travel.com), transposée sans quitter la charte. Triptyque des trois photos fournies par KAZA sur ordinateur (panneau actif éclairé, les autres à 74 % de luminosité, rotation toutes les 4,6 s, survol = actif), diaporama plein écran sur téléphone (fondu 1,1 s, zoom lent, balayage). Voile vert forêt : fort à gauche et en bas, léger en haut (sous l'en-tête transparent). Accroche en Outfit 600 de 44 à 108 px, approche −3 %, « le Gabon » en vert citron ; eyebrow 14 px espacé à 20 % avec trait ; « Faire défiler » 13 px espacé avec ligne animée ; légende photo (icône appareil) + compteur 01 / 03 en vert citron. Bande de recherche blanche flottante à cheval sur le bas du héros, sur fond vert forêt. Légendes limitées à ce que la photo montre.

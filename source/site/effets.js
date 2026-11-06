@@ -126,9 +126,9 @@
       .from('.heros-sur', { x: -24, opacity: 0, duration: .9, ease: EASE }, .55)
       .add(revelerTitre(h1), .65)
       .from('.heros-intro', { y: 24, opacity: 0, duration: 1, ease: EASE }, .95)
-      .from('.heros-poles li', { y: 16, opacity: 0, duration: .8, ease: EASE, stagger: .05 }, 1.1)
       .from('.heros-pied > *', { y: 16, opacity: 0, duration: .9, ease: EASE, stagger: .1 }, 1.2)
       .from('.recherche-bande .recherche', { y: 40, opacity: 0, duration: 1.1, ease: EASE }, 1.1)
+      .from('.recherche-onglets button', { y: 10, opacity: 0, duration: .7, ease: EASE, stagger: .05, clearProps: 'all' }, 1.3)
       .from('.recherche-bande .reassurance li', { y: 12, opacity: 0, duration: .8, ease: EASE, stagger: .05 }, 1.35);
     /* parallaxe : chaque panneau glisse à sa vitesse, le texte s'éloigne */
     if (!mobile()) {
@@ -164,7 +164,7 @@
   reveals.forEach(function (el) { el.classList.add('visible'); });
   gsap.set(reveals, { y: 44, opacity: 0, filter: fin ? 'blur(10px)' : 'none' });
   ScrollTrigger.batch(reveals, { start: 'top 90%', once: true, onEnter: function (lot) { gsap.to(lot, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.15, ease: EASE, stagger: .08, clearProps: 'filter' }); } });
-  $$('.section-tete h2, .pourquoi h2, .verification h2, .diaspora h2, .reservation h2, .partenaires h2').forEach(function (h) {
+  $$('.section-tete h2, .pourquoi h2, .verification h2, .diaspora h2, .comment h2, .partenaires h2').forEach(function (h) {
     decouper(h); gsap.set($$('.mot > span', h), { yPercent: 110 });
     ScrollTrigger.create({ trigger: h, start: 'top 86%', once: true, onEnter: function () { revelerTitre(h); } });
   });
@@ -248,7 +248,7 @@
       avionVol.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ' ' + pt.y.toFixed(1) + ') rotate(' + (angle - 90).toFixed(1) + ') scale(1.5) translate(-12 -12)');
       trace.setAttribute('stroke-dashoffset', (-p * 900).toFixed(1));
       var mr = main.getBoundingClientRect(); var yAbs = pt.y + mr.top + scrollY; var clair = true;
-      for (var s = 0; s < sections.length; s++) { var r = sections[s].getBoundingClientRect(); var top = r.top + scrollY; if (yAbs >= top && yAbs < top + r.height) { clair = !sections[s].classList.contains('sombre') && !sections[s].classList.contains('confiance'); break; } }
+      for (var s = 0; s < sections.length; s++) { var r = sections[s].getBoundingClientRect(); var top = r.top + scrollY; if (yAbs >= top && yAbs < top + r.height) { clair = !sections[s].classList.contains('sombre'); break; } }
       vol.classList.toggle('vol--clair', clair);
       vol.classList.toggle('vol--visible', p > .03);
     }
@@ -259,9 +259,9 @@
     var attente; window.addEventListener('resize', function () { clearTimeout(attente); attente = setTimeout(construire, 200); });
   } else if (vol) vol.remove();
 
-  /* ---------- décollage à l'envoi d'un formulaire ---------- */
+  /* ---------- décollage à l'envoi d'une demande (écran final du panneau) ---------- */
   document.addEventListener('kaza:envoye', function (e) {
-    var statut = $('.statut', e.target); if (!statut) return;
+    var statut = $('.statut', e.target) || e.target; if (!statut) return;
     var av = document.createElement('span'); av.className = 'statut-avion'; av.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="currentColor"/></svg>';
     statut.appendChild(av);
     gsap.fromTo(av, { x: -10, y: 26, opacity: 0, rotate: 60 }, { x: statut.clientWidth - 30, y: -34, opacity: 1, rotate: 40, duration: 1.4, ease: 'power2.inOut', onComplete: function () { gsap.to(av, { opacity: 0, duration: .3, onComplete: function () { av.remove(); } }); } });

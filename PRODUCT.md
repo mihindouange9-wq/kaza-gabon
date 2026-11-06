@@ -41,6 +41,7 @@ Cinq pôles reliés par un compte unique et un récapitulatif de séjour commun 
 - Non encore réalisés : l'application, ses écrans, la prise de paiement, les comptes. La vitrine ne doit donc pas montrer d'écrans d'application ni promettre une réservation en ligne immédiate ; elle oriente vers une demande (formulaire → WhatsApp ou courriel).
 - Points à valider avant lancement : conditions d'annulation et de remboursement, tarifs, documents exigés pour la vérification et critères du badge, zones couvertes, partenaires disponibles, prestataire de paiement, politique de confidentialité et CGU.
 - Canal de réservation (décision du client, 5 nov. 2026) : les API Airtel Money et bancaires prendront du temps ; le client réserve sur le site, le message part sur le WhatsApp de KAZA **077 98 55 53** (`24177985553` dans `source/site/donnees.mjs`), et une responsable donne les conditions de paiement. Adresse courriel et domaine : non fournis.
+- Parcours (demande du client, 6 nov. 2026) : l'utilisateur ne doit pas être perdu au milieu de plusieurs informations ; chaque bouton doit le mener où il souhaite vraiment aller. Réponse : une question à l'entrée (cinq onglets), un seul panneau de demande à six variantes, aucun formulaire dans la page, une action par bouton. Toute nouvelle fonctionnalité passe par ce panneau ou par un onglet, jamais par une section supplémentaire.
 
 ## Brand Commitments
 
