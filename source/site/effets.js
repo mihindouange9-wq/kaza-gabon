@@ -200,7 +200,7 @@
     tourisme.classList.add('est-piste');
     var nExp = $$('.experience', piste).length;
     var progres = document.createElement('div'); progres.className = 'piste-progres'; progres.setAttribute('aria-hidden', 'true');
-    progres.innerHTML = '<b class="piste-compteur">01 / ' + pad(nExp) + '</b><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M4 20H396" stroke="currentColor" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/></svg><span class="piste-avion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="currentColor" transform="rotate(90 12 12)"/></svg></span>';
+    progres.innerHTML = '<b class="piste-compteur">01 / ' + pad(nExp) + '</b><svg viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M4 20H396" stroke="currentColor" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round" fill="none"/></svg><span class="piste-avion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="currentColor" transform="rotate(90 12 12)"/></svg></span>';
     $('.section-tete', tourisme).appendChild(progres);
     var avionPiste = $('.piste-avion', progres), compteurPiste = $('.piste-compteur', progres);
     var deplacement = function () { return Math.max(0, piste.scrollWidth - piste.clientWidth); };

@@ -9,3 +9,5 @@ node_modules/
 *.log
 Thumbs.db
 .DS_Store
+tools/audit/*.png
+tools/audit/og.html

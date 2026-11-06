@@ -65,8 +65,11 @@
     onglets.forEach(function (b) {
       var actif = b.getAttribute('data-onglet') === m; b.setAttribute('aria-selected', actif ? 'true' : 'false'); b.tabIndex = actif ? 0 : -1;
       if (actif && focus) b.focus({ preventScroll: true });
-      /* la rangée défile sur téléphone : l'onglet actif vient au bord gauche, sans bouger la page */
-      if (actif && rangee && rangee.scrollWidth > rangee.clientWidth + 6) rangee.scrollTo({ left: b.getBoundingClientRect().left - rangee.getBoundingClientRect().left + rangee.scrollLeft - 10, behavior: focus && !reduit ? 'smooth' : 'auto' });
+      /* la rangée défile sur téléphone : l'onglet actif est ramené dans la zone visible seulement s'il en sort, sans bouger la page */
+      if (actif && rangee && rangee.scrollWidth > rangee.clientWidth + 6) {
+        var rb = b.getBoundingClientRect(), rr = rangee.getBoundingClientRect();
+        if (rb.left < rr.left + 4 || rb.right > rr.right - 4) rangee.scrollTo({ left: rb.left - rr.left + rangee.scrollLeft - 10, behavior: focus && !reduit ? 'smooth' : 'auto' });
+      }
     });
     if (libelleRecherche) libelleRecherche.textContent = LIBELLES[m] || 'Rechercher';
     ombres();

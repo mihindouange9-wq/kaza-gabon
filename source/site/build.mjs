@@ -13,6 +13,7 @@ const RACINE = join(ICI, '..', '..');
 const SITE = join(RACINE, 'site');
 await mkdir(join(SITE, 'assets'), { recursive: true });
 const version = Date.now().toString(36);
+const SITE_URL = 'https://kaza-gabon.onrender.com'; // adresse publique (canonical, partage) ; à remplacer par le domaine KAZA le jour venu
 
 /* ---------- icônes linéaires (trait 1,8, coins ronds), une seule famille ---------- */
 const TRAITS = {
@@ -58,7 +59,7 @@ const PHOTOS_CLIENT = {
 const imgClient = (n, { sizes = '(max-width: 960px) 100vw, 34vw', eager = false } = {}) => { const p = PHOTOS_CLIENT[n]; return `<img src="assets/img/kaza-${n}-${p.tailles[p.tailles.length - 1]}.webp" srcset="${p.tailles.map((t) => `assets/img/kaza-${n}-${t}.webp ${t}w`).join(', ')}" sizes="${sizes}" width="${p.l}" height="${p.h}" alt="${echapper(p.alt)}"${eager ? ' fetchpriority="high"' : ' decoding="async"'}>`; };
 const appareil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
 const logoBlanc = logo({ couleur: BLANC, accent: CITRON, taille: 100 }).replace(/ style="width:[^"]*"/, '');
-const logoMot = logo({ couleur: BLANC, accent: CITRON, sousTitre: '', taille: 100 }).replace(/ style="width:[^"]*"/, '').replace('class="logo"', 'class="logo logo--mot"');
+const logoMot = logo({ couleur: BLANC, accent: CITRON, sousTitre: '', taille: 100 }).replace(/ style="width:[^"]*"/, '').replace('class="logo"', 'class="logo logo--mot"').replace('aria-label="KAZA "', 'aria-label="KAZA"');
 const sitesCredits = [...new Set(CRED.map((p) => `${p.legende} : ${p.auteur}, ${p.licence}`))].join(' · ');
 /* voile de nuages (trois nappes qui dérivent) posé dans le héros et les sections sombres ; le fond de page est tenu par nuages.js */
 const nuages = (classe = '') => `<div class="nuages-voile${classe ? ' ' + classe : ''}" aria-hidden="true"><i></i><i></i><i></i></div>`;
@@ -97,12 +98,20 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>KAZA GABON – Logement, hébergement, tourisme, conciergerie et diaspora au Gabon</title>
-<meta name="description" content="KAZA GABON – ÉCO TOURISME : un seul point d’entrée pour trouver un logement, réserver un hébergement, organiser des expériences et commander des services au Gabon, avec un accompagnement dédié à la diaspora.">
+<title>KAZA GABON – Logement, séjours, tourisme et services au Gabon</title>
+<meta name="description" content="Un seul point d’entrée pour trouver un logement, réserver un hébergement, organiser des expériences et commander des services au Gabon, diaspora comprise.">
 <meta name="theme-color" content="${FORET}">
+<link rel="canonical" href="${SITE_URL}/">
 <meta property="og:title" content="KAZA GABON – Préparer, organiser et vivre un séjour au Gabon">
-<meta property="og:description" content="Logement, hébergement, tourisme, conciergerie et accompagnement de la diaspora : cinq pôles, un compte, des partenaires vérifiés.">
+<meta property="og:description" content="Logement, hébergement, tourisme, conciergerie et accompagnement de la diaspora : cinq pôles, des partenaires vérifiés, une réponse sur WhatsApp.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="${SITE_URL}/">
+<meta property="og:image" content="${SITE_URL}/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="KAZA GABON : la plage, La Concorde et les berges des 3 Rivières">
+<meta property="og:locale" content="fr_GA">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
 <link rel="manifest" href="manifest.json">
@@ -115,7 +124,7 @@ const html = `<!doctype html>
 <script src="assets/intro.js?v=${version}"></script>
 </head>
 <body>
-<div id="intro" aria-hidden="true"><div class="intro-logo">${logo({ couleur: BLANC, accent: CITRON, sousTitre: '', taille: 100 }).replace(/ style="width:[^"]*"/, '')}</div><p class="intro-ligne">Préparer · Organiser · Vivre le Gabon</p></div>
+<div id="intro" aria-hidden="true"><div class="intro-logo">${logo({ couleur: BLANC, accent: CITRON, sousTitre: '', taille: 100 }).replace(/ style="width:[^"]*"/, '').replace('aria-label="KAZA "', 'aria-label="KAZA"')}</div><p class="intro-ligne">Préparer · Organiser · Vivre le Gabon</p></div>
 <a class="evitement" href="#contenu">Aller au contenu</a>
 <header class="entete sombre">
   <div class="conteneur">
@@ -160,7 +169,7 @@ const html = `<!doctype html>
         <div class="recherche-onglets" role="tablist" aria-label="Type de recherche">${POLES.map((p) => `<button type="button" role="tab" id="onglet-${p.cle}" aria-selected="${p.cle === 'stay' ? 'true' : 'false'}" aria-controls="recherche-champs" tabindex="${p.cle === 'stay' ? '0' : '-1'}" data-onglet="${p.cle}">${icPole(p.cle, 18)}<span>${p.nom}</span><small>${p.court}</small></button>`).join('')}</div>
       </div>
       <div class="recherche-champs" id="recherche-champs" role="tabpanel">
-        <label data-pour="stay tourisme"><span>Destination</span><input type="text" name="destination" list="lieux" placeholder="Libreville, Loango, Nyonié…" autocomplete="off"></label>
+        <label data-pour="stay tourisme"><span>Destination</span><input type="text" name="destination" list="lieux" placeholder="Libreville, Loango…" autocomplete="off"></label>
         <label data-pour="stay"><span>Arrivée</span><input type="date" name="arrivee"></label>
         <label data-pour="stay"><span>Départ</span><input type="date" name="depart"></label>
         <label data-pour="stay"><span>Voyageurs</span><input type="number" name="voyageurs" min="1" max="20" inputmode="numeric" placeholder="2"></label>
@@ -188,7 +197,7 @@ const html = `<!doctype html>
   ${nuages()}
   <div class="conteneur">
     <h2 id="titre-poles" class="visuellement-cache">Les cinq pôles KAZA</h2>
-    <ol class="poles-liste">${POLES.map((p, i) => `<li class="pole" data-reveal style="--delai:${i * .06}s"><span class="pole-num" aria-hidden="true">0${i + 1}</span><h3><small>KAZA</small>${p.nom}</h3><p>${p.texte}</p>${actionPole(p)}</li>`).join('')}</ol>
+    <ol class="poles-liste">${POLES.map((p, i) => `<li class="pole" data-reveal style="--delai:${i * .06}s"><span class="pole-num" aria-hidden="true">0${i + 1}</span><h3><small>KAZA</small> ${p.nom}</h3><p>${p.texte}</p>${actionPole(p)}</li>`).join('')}</ol>
   </div>
 </section>
 
