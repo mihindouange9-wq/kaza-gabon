@@ -4,7 +4,8 @@
 import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { logo, symbole, trajectoire, toits, reliefs, icone, logoAura, echapper, credits, FORET, CITRON, BLANC, GRIS, RELIEF } from '../lib.mjs';
+import { logo, symbole, trajectoire, toits, reliefs, icone, logoAura, echapper, credits } from '../lib.mjs';
+import { FORET, CITRON, BLANC, GRIS, RELIEF } from './palette.mjs';
 import { CONTACT, DESTINATIONS, POLES, HEBERGEMENTS, EXPERIENCES, SERVICES, TYPES_BIEN, FREQUENCES, BESOINS, PROFILS, VERIFICATION, PARCOURS, PARTENAIRES, COMMENT, MODES, CHOIX } from './donnees.mjs';
 
 const ICI = dirname(fileURLToPath(import.meta.url));
@@ -59,6 +60,8 @@ const appareil = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const logoBlanc = logo({ couleur: BLANC, accent: CITRON, taille: 100 }).replace(/ style="width:[^"]*"/, '');
 const logoMot = logo({ couleur: BLANC, accent: CITRON, sousTitre: '', taille: 100 }).replace(/ style="width:[^"]*"/, '').replace('class="logo"', 'class="logo logo--mot"');
 const sitesCredits = [...new Set(CRED.map((p) => `${p.legende} : ${p.auteur}, ${p.licence}`))].join(' · ');
+/* voile de nuages (trois nappes qui dérivent) posé dans le héros et les sections sombres ; le fond de page est tenu par nuages.js */
+const nuages = (classe = '') => `<div class="nuages-voile${classe ? ' ' + classe : ''}" aria-hidden="true"><i></i><i></i><i></i></div>`;
 
 /* ---------- gabarits ---------- */
 const navLiens = POLES.map((p) => `<a href="#${p.ancre}">${p.nom}</a>`).join('');
@@ -138,14 +141,14 @@ const html = `<!doctype html>
     <figure class="panneau panneau--berges" data-legende="${PHOTOS_CLIENT[3].legende}">${imgClient(3)}</figure>
   </div>
   <div class="heros-voile" aria-hidden="true"></div>
-  <div class="heros-fond" aria-hidden="true">${trajectoire({ largeur: 900, hauteur: 420, epaisseur: 4 })}</div>
+  ${nuages()}
+  <div class="heros-fond" aria-hidden="true">${trajectoire({ largeur: 900, hauteur: 420, epaisseur: 4, couleur: CITRON, avionCouleur: BLANC })}</div>
   <div class="conteneur heros-copie">
     <p class="heros-sur">KAZA GABON – Éco tourisme</p>
     <h1 id="titre-heros">Préparer, organiser et vivre <em>le Gabon</em>.</h1>
     <p class="heros-intro">Logement, hébergement, expériences et services du quotidien, avec des partenaires vérifiés. Dites-nous ce que vous cherchez&#8239;: une équipe vous répond sur WhatsApp.</p>
   </div>
   <div class="conteneur heros-pied">
-    <a class="heros-defiler" href="#poles"><span>Faire défiler</span><i aria-hidden="true"></i></a>
     <p class="heros-legende">${appareil}<span data-legende>${PHOTOS_CLIENT[2].legende}</span><b class="heros-compteur">01 / 03</b></p>
   </div>
 </section>
@@ -179,9 +182,10 @@ const html = `<!doctype html>
     <ul class="reassurance"><li>Partenaires, documents et biens vérifiés</li><li>Prix détaillé avant tout paiement</li><li>Une responsable vous répond sur WhatsApp</li></ul>
   </div>
 </div>
-<div class="toits-bande" aria-hidden="true">${toits({ largeur: 1600, hauteur: 44, n: 40, graine: 5 }).replace(/<(polygon|polyline) /g, (m, t, i, s) => `<${t} style="--i:${(s.slice(0, i).match(/<(polygon|polyline) /g) || []).length}" `)}</div>
+<div class="toits-bande" aria-hidden="true">${toits({ largeur: 1600, hauteur: 44, n: 40, graine: 5, couleur: CITRON }).replace(/<(polygon|polyline) /g, (m, t, i, s) => `<${t} style="--i:${(s.slice(0, i).match(/<(polygon|polyline) /g) || []).length}" `)}</div>
 
 <section class="poles sombre" id="poles" aria-labelledby="titre-poles">
+  ${nuages()}
   <div class="conteneur">
     <h2 id="titre-poles" class="visuellement-cache">Les cinq pôles KAZA</h2>
     <ol class="poles-liste">${POLES.map((p, i) => `<li class="pole" data-reveal style="--delai:${i * .06}s"><span class="pole-num" aria-hidden="true">0${i + 1}</span><h3><small>KAZA</small>${p.nom}</h3><p>${p.texte}</p>${actionPole(p)}</li>`).join('')}</ol>
@@ -219,6 +223,7 @@ const html = `<!doctype html>
 </section>
 
 <section class="section sombre" id="tourisme" aria-labelledby="titre-tourisme">
+  ${nuages()}
   <div class="conteneur">
     <div class="section-tete" data-reveal>
       <div><p class="pole-nom" style="color:${CITRON}">KAZA TOURISME</p><h2 id="titre-tourisme">Les parcs, les lagunes et les plages, avec des guides qui les connaissent</h2><p class="secondaire">L’écotourisme d’abord&#8239;: parcs nationaux, forêts, côtes et lagunes, visites culturelles, avec des opérateurs partenaires vérifiés. Programme, durée et conditions sont écrits avant toute demande.</p></div>
@@ -230,6 +235,7 @@ const html = `<!doctype html>
 </section>
 
 <section class="comment" id="comment" aria-labelledby="titre-comment">
+  ${nuages('nuages-voile--clair')}
   <div class="conteneur">
     <div class="comment-tete" data-reveal><h2 id="titre-comment">Comment ça marche</h2><p>Trois étapes, les mêmes pour les cinq pôles. Aucun paiement sur le site.</p></div>
     <ol class="comment-etapes">${COMMENT.map((c, i) => `<li data-reveal style="--delai:${i * .08}s"><span class="numero">${i + 1}</span><b>${c.titre}</b><p>${c.texte}</p></li>`).join('')}</ol>
@@ -265,7 +271,8 @@ const html = `<!doctype html>
 </section>
 
 <section class="section diaspora sombre" id="diaspora" aria-labelledby="titre-diaspora">
-  <div class="fond-reliefs" aria-hidden="true">${reliefs({ largeur: 1600, hauteur: 300, opaciteArriere: .12 })}</div>
+  ${nuages()}
+  <div class="fond-reliefs" aria-hidden="true">${reliefs({ largeur: 1600, hauteur: 300, opaciteArriere: .12, avant: RELIEF, arriere: GRIS })}</div>
   <div class="conteneur">
     <div data-reveal>
       <p class="pole-nom" style="color:${CITRON}">KAZA DIASPORA</p>
@@ -290,6 +297,7 @@ const html = `<!doctype html>
 </main>
 
 <footer class="pied sombre">
+  ${nuages()}
   <div class="conteneur">
     <div class="pied-haut">
       <div>${logoBlanc}<p>KAZA GABON – ÉCO TOURISME. Le point d’entrée fiable pour préparer, organiser et vivre un séjour au Gabon.</p></div>
@@ -362,6 +370,7 @@ const html = `<!doctype html>
   </div>
 </aside>
 <script src="assets/config.js?v=${version}"></script>
+<script src="assets/nuages.js?v=${version}" defer></script>
 <script src="assets/app.js?v=${version}" defer></script>
 <script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -381,6 +390,7 @@ for (const e of EXPERIENCES) OBJETS[e.slug] = { type: 'Expérience', pole: 'tour
 await writeFile(join(SITE, 'assets', 'config.js'), `window.KAZA_CONTACT = ${JSON.stringify(CONTACT)};\nwindow.KAZA_OBJETS = ${JSON.stringify(OBJETS)};\nwindow.KAZA_MODES = ${JSON.stringify(MODES)};\n`);
 await copyFile(join(ICI, 'site.css'), join(SITE, 'assets', 'site.css'));
 await copyFile(join(ICI, 'app.js'), join(SITE, 'assets', 'app.js'));
+await copyFile(join(ICI, 'nuages.js'), join(SITE, 'assets', 'nuages.js'));
 await copyFile(join(ICI, 'effets.js'), join(SITE, 'assets', 'effets.js'));
 await writeFile(join(SITE, 'assets', 'favicon.svg'), symbole({ fond: FORET, lettre: BLANC, accent: CITRON }).replace(/ class="[^"]*"/, '').replace(/ style="[^"]*"/, '') + '\n');
 console.log('généré : site/index.html, site/assets/site.css, site/assets/app.js, site/assets/config.js, site/assets/favicon.svg');

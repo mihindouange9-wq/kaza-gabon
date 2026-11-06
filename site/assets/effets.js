@@ -74,7 +74,7 @@
   if (intro && html.classList.contains('intro')) {
     if (lenis) lenis.stop();
     var svg = $('svg', intro);
-    var toitsIntro = $$('polygon[fill="#C7F974"]', svg), arc = $('path[stroke]', svg), avion = $('g', svg);
+    var toitsIntro = $$('polygon[fill="#BAD2AB"]', svg), arc = $('path[stroke]', svg), avion = $('g', svg);
     gsap.set(toitsIntro, { scale: 0, transformOrigin: '50% 100%' });
     if (arc) { var lg = arc.getTotalLength(); gsap.set(arc, { strokeDasharray: lg, strokeDashoffset: lg }); }
     gsap.set(avion, { opacity: 0 });
@@ -216,7 +216,7 @@
     gsap.set(tampon, { scale: 1.9, rotate: -14, opacity: 0 });
     ScrollTrigger.create({ trigger: tampon, start: 'top 82%', once: true, onEnter: function () {
       gsap.to(tampon, { scale: 1, rotate: 0, opacity: 1, duration: .75, ease: 'back.out(1.9)', delay: .3 });
-      gsap.fromTo('.verif-visuel', { boxShadow: '0 0 0 0 rgba(199,249,116,.55)' }, { boxShadow: '0 0 0 34px rgba(199,249,116,0)', duration: 1.2, ease: 'power2.out', delay: .55, clearProps: 'boxShadow' });
+      gsap.fromTo('.verif-visuel', { boxShadow: '0 0 0 0 rgba(186,210,171,.55)' }, { boxShadow: '0 0 0 34px rgba(186,210,171,0)', duration: 1.2, ease: 'power2.out', delay: .55, clearProps: 'boxShadow' });
     } });
   }
 

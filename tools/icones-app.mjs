@@ -6,7 +6,8 @@ import { writeFile, mkdir } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { setTimeout as attendre } from 'node:timers/promises';
-import { symbole, FORET, BLANC, CITRON } from '../source/lib.mjs';
+import { symbole } from '../source/lib.mjs';
+import { FORET, BLANC, CITRON } from '../source/site/palette.mjs';
 
 const RACINE = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DEST = join(RACINE, 'site', 'assets', 'icons');

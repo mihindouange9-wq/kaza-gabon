@@ -6,23 +6,31 @@ Monde visuel établi par la charte graphique KAZA (`charte/`, 32 planches, novem
 
 Premium, naturelle, tropicale, élégante, épurée, immersive. Le vert forêt structure, le blanc cassé porte les contenus, le vert citron déclenche l'action (une fois par écran), le vert gris sépare. Les photos du Gabon sont réelles et nommées ; sur une photo, seul un voile vert forêt porte le texte. Pas de dégradé entre couleurs, pas d'illustration générique, pas d'ombre dure.
 
-## Jetons
+## Jetons (palette du site choisie par le client le 6 nov. 2026, `new PC.png`)
 
 ```css
---foret: #00291B;      /* dominante : fonds, navigation, grands aplats */
---citron: #C7F974;     /* accent : action principale, mot mis en évidence, toits du logo */
---blanc: #F7F8F4;      /* clarté : surfaces, texte sur fond sombre */
---gris: #9AAFA4;       /* discret : texte secondaire sur fond sombre, bordures, séparateurs */
---relief: #143A2B;     /* seule nuance dérivée : cartes sur vert forêt, reliefs */
---encre-2: rgba(0,41,27,.72);  /* texte secondaire sur fond clair (le vert gris ne suffit pas : 2,2:1) */
---filet: #DCE3DF;      /* filets sur fond clair */
---surface: #FFFFFF;    /* cartes sur blanc cassé */
---ombre: 0 18px 40px -22px rgba(0,41,27,.35);
+--foret: #153611;      /* Dark Forest Green : fonds, navigation, texte sur fond clair */
+--citron: #BAD2AB;     /* Pastel Green : action principale sur fond sombre, mot mis en évidence, toits du logo */
+--blanc: #F0F3E5;      /* Eggshell : clarté, texte sur fond sombre */
+--gris: #82A577;       /* Sage Green : texte secondaire sur fond sombre, bordures, nappes de nuages */
+--relief: #254720;     /* dérivé : Dark Forest + 15 % de Sage, cartes et reliefs sur fond sombre */
+--encre-2: rgba(21,54,17,.74);  /* texte secondaire sur fond clair (le Sage ne suffit pas sur Eggshell : 2,5:1) */
+--filet: #D6E0CB;      /* filets sur fond clair */
+--surface: rgba(255,255,255,.78);  /* cartes : translucides, les nuages passent dessous */
+--ombre: 0 18px 40px -22px rgba(21,54,17,.35);
 --rayon-carte: 16px; --rayon-champ: 12px; --rayon-bouton: 999px;
 --titrage: "Outfit"; --texte: "Plus Jakarta Sans";
 ```
 
-Contrastes mesurés : blanc cassé / vert forêt 14,8 ; vert citron / vert forêt 12,9 ; vert gris / vert forêt 6,8 ; vert forêt / vert citron 12,9 ; vert forêt / blanc cassé 14,8. Interdits : vert citron sur blanc cassé (1,1), vert gris sur blanc cassé pour du texte (2,2).
+Les noms des jetons sont historiques (ils datent de la charte vert forêt / vert citron) ; seules les valeurs ont changé, dans `source/site/palette.mjs` et `site.css`. La charte imprimée (`charte/`) reste sur la palette d'origine tant que la fondatrice ne demande pas sa mise à jour. Contrastes mesurés : Eggshell / Dark Forest 11,9 ; Pastel / Dark Forest 8,3 ; Sage / Dark Forest 4,9 ; Dark Forest / Pastel 8,3. Interdits : Sage ou Pastel pour du texte sur Eggshell (2,5 et 1,4) ; Sage pour du texte sur le relief (3,8).
+
+## Nuages (6 nov. 2026, demande : « des mélanges de nuances, comme des nuages, qui bougent »)
+
+Deux couches, aucune dépendance. `nuages.js` dessine un canvas fixe de 240 × 135 étiré derrière toute la page (`z-index: -1`, `html` en Eggshell, `body` transparent) : huit nappes radiales des quatre couleurs (Pastel, Sage, Eggshell, une pointe de Dark Forest à 16 %) qui dérivent sur des trajectoires sinusoïdales lentes, redessinées à 30 images/s au plus, figées si le mouvement est réduit, en pause onglet caché. Les sections claires n'ont pas de fond (les nuages passent), les sections sombres sont en Dark Forest à 92 %, la bande « Comment ça marche » en Pastel à 82 %, les cartes en blanc à 78 %. Dans le héros, les sections sombres et le pied, un voile `.nuages-voile` (trois disques en dégradé radial, `mix-blend-mode: screen`, opacité 34 à 38 %, translations de 46 à 58 s en aller-retour) ajoute le mouvement là où le canvas est masqué. Le texte reste mesuré contre le fond le plus défavorable (Dark Forest sur Pastel plein : 8,3).
+
+## Typographie (rappel appliqué avec rigueur le 6 nov. 2026)
+
+Outfit 600 pour tous les titres, numéraux compris (jamais 300 ni 700) ; Plus Jakarta Sans 400 / 500 pour le texte, les libellés de champs et les sur-titres non capitalisés ; échelle 72 / 44 / 26 / 17 / 14 / 13 sans valeur intermédiaire ; approche −1,5 % et interlignage 1,05 à 1,1 sur les titres (le héros compris) ; capitales espacées de +8 à +14 % réservées aux noms de pôles et étiquettes courtes ; chiffres tabulaires sur tout le site (`font-variant-numeric`). « Faire défiler » retiré du héros.
 
 ## Typographie
 
