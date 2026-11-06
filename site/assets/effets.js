@@ -162,8 +162,8 @@
   /* ---------- révélations au défilement ---------- */
   var reveals = $$('[data-reveal]').filter(function (el) { return !el.closest('.heros'); });
   reveals.forEach(function (el) { el.classList.add('visible'); });
-  gsap.set(reveals, { y: 44, opacity: 0, filter: fin ? 'blur(10px)' : 'none' });
-  ScrollTrigger.batch(reveals, { start: 'top 90%', once: true, onEnter: function (lot) { gsap.to(lot, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.15, ease: EASE, stagger: .08, clearProps: 'filter' }); } });
+  gsap.set(reveals, { y: 32, opacity: 0 });
+  ScrollTrigger.batch(reveals, { start: 'top 90%', once: true, onEnter: function (lot) { gsap.to(lot, { y: 0, opacity: 1, duration: 1.05, ease: EASE, stagger: .07 }); } });
   $$('.section-tete h2, .pourquoi h2, .verification h2, .diaspora h2, .comment h2, .partenaires h2').forEach(function (h) {
     decouper(h); gsap.set($$('.mot > span', h), { yPercent: 110 });
     ScrollTrigger.create({ trigger: h, start: 'top 86%', once: true, onEnter: function () { revelerTitre(h); } });

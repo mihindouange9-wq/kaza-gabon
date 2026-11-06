@@ -140,7 +140,7 @@ const html = `<!doctype html>
   <div class="heros-voile" aria-hidden="true"></div>
   <div class="heros-fond" aria-hidden="true">${trajectoire({ largeur: 900, hauteur: 420, epaisseur: 4 })}</div>
   <div class="conteneur heros-copie">
-    <p class="heros-sur">Bienvenue chez KAZA</p>
+    <p class="heros-sur">KAZA GABON – Éco tourisme</p>
     <h1 id="titre-heros">Préparer, organiser et vivre <em>le Gabon</em>.</h1>
     <p class="heros-intro">Logement, hébergement, expériences et services du quotidien, avec des partenaires vérifiés. Dites-nous ce que vous cherchez&#8239;: une équipe vous répond sur WhatsApp.</p>
   </div>
@@ -176,7 +176,7 @@ const html = `<!doctype html>
       </div>
       <datalist id="lieux">${DESTINATIONS.map((d) => `<option value="${d}">`).join('')}</datalist>
     </form>
-    <ul class="reassurance"><li>${ic('bouclier', 16)}Partenaires, documents et biens vérifiés</li><li>${ic('recu', 16)}Prix détaillé avant tout paiement</li><li>${ic('whatsapp', 16)}Une responsable vous répond sur WhatsApp</li></ul>
+    <ul class="reassurance"><li>Partenaires, documents et biens vérifiés</li><li>Prix détaillé avant tout paiement</li><li>Une responsable vous répond sur WhatsApp</li></ul>
   </div>
 </div>
 <div class="toits-bande" aria-hidden="true">${toits({ largeur: 1600, hauteur: 44, n: 40, graine: 5 }).replace(/<(polygon|polyline) /g, (m, t, i, s) => `<${t} style="--i:${(s.slice(0, i).match(/<(polygon|polyline) /g) || []).length}" `)}</div>
@@ -184,7 +184,7 @@ const html = `<!doctype html>
 <section class="poles sombre" id="poles" aria-labelledby="titre-poles">
   <div class="conteneur">
     <h2 id="titre-poles" class="visuellement-cache">Les cinq pôles KAZA</h2>
-    <ul class="poles-liste">${POLES.map((p, i) => `<li class="pole" data-reveal style="--delai:${i * .06}s"><div class="ic">${icPole(p.cle, 26)}</div><h3><small>KAZA</small>${p.nom}</h3><p>${p.texte}</p>${actionPole(p)}</li>`).join('')}</ul>
+    <ol class="poles-liste">${POLES.map((p, i) => `<li class="pole" data-reveal style="--delai:${i * .06}s"><span class="pole-num" aria-hidden="true">0${i + 1}</span><h3><small>KAZA</small>${p.nom}</h3><p>${p.texte}</p>${actionPole(p)}</li>`).join('')}</ol>
   </div>
 </section>
 
@@ -210,7 +210,7 @@ const html = `<!doctype html>
 <section class="section" id="stay" aria-labelledby="titre-stay">
   <div class="conteneur">
     <div class="section-tete" data-reveal>
-      <div><p class="pole-nom">${icPole('stay', 20)}KAZA STAY</p><h2 id="titre-stay">Des hébergements vérifiés, du studio en ville au lodge sur la lagune</h2><p class="secondaire">Choisissez un hébergement, appuyez sur Réserver, indiquez vos dates&#8239;: une responsable KAZA vous confirme la disponibilité et le prix sur WhatsApp.</p></div>
+      <div><p class="pole-nom">KAZA STAY</p><h2 id="titre-stay">Des hébergements vérifiés, du studio en ville au lodge sur la lagune</h2><p class="secondaire">Choisissez un hébergement, appuyez sur Réserver, indiquez vos dates&#8239;: une responsable KAZA vous confirme la disponibilité et le prix sur WhatsApp.</p></div>
     </div>
     <div class="resultat" id="resultat" role="status" aria-live="polite"></div>
     <div class="annonces">${HEBERGEMENTS.map(annonce).join('')}</div>
@@ -221,7 +221,7 @@ const html = `<!doctype html>
 <section class="section sombre" id="tourisme" aria-labelledby="titre-tourisme">
   <div class="conteneur">
     <div class="section-tete" data-reveal>
-      <div><p class="pole-nom" style="color:${CITRON}">${icPole('tourisme', 20)}KAZA TOURISME</p><h2 id="titre-tourisme">Les parcs, les lagunes et les plages, avec des guides qui les connaissent</h2><p class="secondaire">L’écotourisme d’abord&#8239;: parcs nationaux, forêts, côtes et lagunes, visites culturelles, avec des opérateurs partenaires vérifiés. Programme, durée et conditions sont écrits avant toute demande.</p></div>
+      <div><p class="pole-nom" style="color:${CITRON}">KAZA TOURISME</p><h2 id="titre-tourisme">Les parcs, les lagunes et les plages, avec des guides qui les connaissent</h2><p class="secondaire">L’écotourisme d’abord&#8239;: parcs nationaux, forêts, côtes et lagunes, visites culturelles, avec des opérateurs partenaires vérifiés. Programme, durée et conditions sont écrits avant toute demande.</p></div>
     </div>
     <div class="resultat resultat--sombre" id="resultat-tourisme" role="status" aria-live="polite"></div>
     <div class="experiences">${EXPERIENCES.map(experience).join('')}</div>
@@ -240,7 +240,7 @@ const html = `<!doctype html>
 <section class="section" id="immo" aria-labelledby="titre-immo">
   <div class="conteneur verification">
     <div data-reveal>
-      <p class="pole-nom section-tete-pole">${icPole('immo', 20)}KAZA IMMO &amp; VÉRIFIÉ</p>
+      <p class="pole-nom section-tete-pole">KAZA IMMO &amp; VÉRIFIÉ</p>
       <h2 id="titre-immo">Acheter ou louer longtemps, sans mauvaise surprise</h2>
       <p class="secondaire" style="margin:14px 0 26px;max-width:52ch;font-size:17px">Maisons, appartements, studios et terrains, à la vente ou en location longue durée, en relation directe avec des propriétaires et des agences vérifiés. Décrivez le bien que vous cherchez, l’équipe KAZA vous propose des biens contrôlés.</p>
       <ol class="etapes etapes--clair">${VERIFICATION.map((v) => `<li><div><b>${v.titre}</b><p class="secondaire">${v.texte}</p></div></li>`).join('')}</ol>
@@ -258,9 +258,9 @@ const html = `<!doctype html>
 <section class="section" id="conciergerie" aria-labelledby="titre-conciergerie" style="background:var(--surface-2)">
   <div class="conteneur">
     <div class="section-tete" data-reveal>
-      <div><p class="pole-nom">${icPole('conciergerie', 20)}KAZA CONCIERGERIE</p><h2 id="titre-conciergerie">Les services du quotidien, seuls ou ajoutés à votre séjour</h2><p class="secondaire">Choisissez un service&#8239;: vous indiquez le quartier et la date, un prestataire qualifié vous envoie un devis écrit.</p></div>
+      <div><p class="pole-nom">KAZA CONCIERGERIE</p><h2 id="titre-conciergerie">Les services du quotidien, seuls ou ajoutés à votre séjour</h2><p class="secondaire">Choisissez un service&#8239;: vous indiquez le quartier et la date, un prestataire qualifié vous envoie un devis écrit.</p></div>
     </div>
-    <ul class="services">${SERVICES.map((s, i) => `<li data-reveal style="--delai:${(i % 3) * .06}s"><button type="button" class="service" data-demande="conciergerie" data-service="${echapper(s.nom)}"><span class="ic">${ic(s.icone, 24)}</span><span class="service-texte"><b>${s.nom}</b><span>${s.texte}</span></span><span class="service-fleche">${ic('fleche', 20)}</span></button></li>`).join('')}</ul>
+    <ul class="services">${SERVICES.map((s, i) => `<li data-reveal style="--delai:${(i % 2) * .06}s"><button type="button" class="service" data-demande="conciergerie" data-service="${echapper(s.nom)}"><span class="service-texte"><b>${s.nom}</b><span>${s.texte}</span></span><span class="service-fleche">${ic('fleche', 20)}</span></button></li>`).join('')}</ul>
   </div>
 </section>
 
@@ -268,7 +268,7 @@ const html = `<!doctype html>
   <div class="fond-reliefs" aria-hidden="true">${reliefs({ largeur: 1600, hauteur: 300, opaciteArriere: .12 })}</div>
   <div class="conteneur">
     <div data-reveal>
-      <p class="pole-nom" style="color:${CITRON}">${icPole('diaspora', 20)}KAZA DIASPORA</p>
+      <p class="pole-nom" style="color:${CITRON}">KAZA DIASPORA</p>
       <h2 id="titre-diaspora">Vous vivez à l’étranger&#8239;? Préparez votre retour, votre séjour ou votre installation.</h2>
       <p class="secondaire" style="margin-top:14px;max-width:52ch;font-size:17px">Un seul interlocuteur ouvre les autres pôles&#8239;: hébergement, transferts, expériences, services, et un suivi centralisé de vos demandes, confirmations et documents.</p>
       <div class="actions-ligne"><button type="button" class="bouton" data-demande="diaspora">Préparer mon retour</button><p class="mention-claire">Réponse personnalisée de l’équipe KAZA. Aucun paiement à cette étape.</p></div>
@@ -316,7 +316,7 @@ const html = `<!doctype html>
   </div>
   <div class="demande-corps">
     <div class="demande-choix" data-etape="choix">
-      ${CHOIX.map((c) => `<button type="button" class="choix" data-demande="${c.mode}"><span class="ic">${icPole(c.cle, 24)}</span><span class="choix-texte"><b>${c.titre}</b><span>${c.texte}</span></span>${ic('fleche', 20)}</button>`).join('')}
+      ${CHOIX.map((c) => { const p = POLES.find((x) => x.cle === c.cle); return `<button type="button" class="choix" data-demande="${c.mode}"><span class="choix-texte"><small>KAZA ${p.nom}</small><b>${c.titre}</b><span>${c.texte}</span></span>${ic('fleche', 20)}</button>`; }).join('')}
       <p class="demande-aide">Vous louez, vous guidez, vous rendez service&#8239;? <button type="button" class="lien-texte" data-demande="partenaire">Devenir partenaire</button></p>
     </div>
     <form class="demande-form" id="formulaire" novalidate data-etape="form" data-mode="stay" hidden>
@@ -353,7 +353,6 @@ const html = `<!doctype html>
       </div>
     </form>
     <div class="demande-fin" data-etape="fin" hidden>
-      <span class="demande-fin-ic">${ic('coche', 30)}</span>
       <h3>Votre message est prêt</h3>
       <p class="statut" data-etat="ok" data-fin-texte></p>
       <a class="bouton bouton--citron" data-fin-lien href="https://wa.me/${CONTACT.whatsapp}" target="_blank" rel="noopener">${ic('whatsapp', 20)}Ouvrir WhatsApp</a>
