@@ -67,7 +67,7 @@ button.lien { padding: 0; border: 0; background: none; cursor: pointer; text-ali
 .lien:hover .ico { transform: translateX(4px); }
 .lien:hover { text-decoration: underline; }
 /* bouton qui ressemble à un lien dans une phrase */
-.lien-texte { display: inline; position: relative; padding: 0; border: 0; background: none; font: inherit; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.lien-texte { display: inline; position: relative; padding: 0; text-align: inherit; border: 0; background: none; font: inherit; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .lien-texte::after { content: ''; position: absolute; left: 0; right: 0; top: -11px; bottom: -11px; } /* zone tactile de 44 px sans toucher à la ligne */
 .lien-texte:hover { text-decoration-thickness: 2px; }
 .actions-ligne { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 28px; }
@@ -296,6 +296,16 @@ button.lien { padding: 0; border: 0; background: none; cursor: pointer; text-ali
 /* champs (utilisés par le panneau de demande) */
 .champs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .champ { display: grid; gap: 6px; font-size: 14px; min-width: 0; }
+label.champ { grid-template-rows: 1fr auto; } /* le libellé absorbe l'écart quand celui du voisin passe sur deux lignes : les deux champs gardent la même hauteur, alignés */
+.champs:has(.erreur[data-visible]) label.champ { grid-template-rows: auto auto 1fr; } /* avec un message d'erreur, les champs s'alignent par le haut au lieu de s'étirer */
+/* pistes partagées : libellé, champ et message de deux champs voisins occupent les mêmes rangées, donc restent alignés quel que soit le libellé ou l'erreur */
+@supports (grid-template-rows: subgrid) {
+  .champs { row-gap: 0; margin-bottom: -14px; }
+  .champs > .champ { margin-bottom: 14px; }
+  .champs > label.champ, .champs:has(.erreur[data-visible]) > label.champ { grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; }
+  .champs > label.champ > span:first-child { padding-bottom: 6px; }
+  .champs > label.champ > .erreur { padding-top: 6px; }
+}
 fieldset.champ { border: 0; padding: 0; margin: 0; }
 fieldset.champ legend { padding: 0; margin-bottom: 6px; }
 .champ--large { grid-column: 1 / -1; }
@@ -306,6 +316,7 @@ fieldset.champ legend { padding: 0; margin-bottom: 6px; }
 .champ:has([required]) > span i.requis { display: inline; }
 .champ input, .champ select, .champ textarea { width: 100%; min-height: 48px; padding: 11px 14px; border: 1.5px solid var(--gris); border-radius: var(--r-champ); background: #fff; font: 400 17px/1.4 var(--texte); color: var(--encre); transition: border-color .2s, box-shadow .2s; }
 .champ textarea { min-height: 110px; resize: vertical; }
+.champ input[type="date"] { height: 48px; } /* le champ de date natif fait 50 px : même hauteur que son voisin */
 .champ input:focus, .champ select:focus, .champ textarea:focus { outline: none; border-color: var(--foret); box-shadow: 0 0 0 3px rgba(186, 210, 171, .55); }
 .champ input[aria-invalid="true"], .champ select[aria-invalid="true"], .champ textarea[aria-invalid="true"] { border-color: #B4463C; }
 .champ .erreur { display: none; font-size: 13px; color: #8F3129; }
@@ -516,7 +527,7 @@ body.demande-ouverte { overflow: hidden; }
   .demande-corps { padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px)); }
   .demande-pied { margin: 4px -16px -16px; padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)); bottom: calc(-16px - env(safe-area-inset-bottom, 0px)); }
   .pied-haut { grid-template-columns: 1fr; gap: 24px; }
-  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  body { padding-bottom: calc(69px + env(safe-area-inset-bottom)); } /* hauteur exacte du dock : plus de liseré clair sous le pied de page */
   .dock { display: grid; position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; grid-template-columns: repeat(5, 1fr); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); background: var(--foret); color: var(--blanc); border-top: 1px solid rgba(130, 165, 119, .25); }
   .dock a { display: grid; justify-items: center; gap: 3px; min-height: 56px; padding: 6px 2px; border-radius: 12px; font-family: var(--titrage); font-weight: 600; font-size: 13px; line-height: 1; text-decoration: none; color: var(--gris); }
   .dock a .ico { width: 24px; height: 24px; }
@@ -527,7 +538,7 @@ body.demande-ouverte { overflow: hidden; }
 
 /* téléphone en paysage : le héros reprend sa hauteur naturelle, la légende passe dans le flux */
 @media (max-height: 540px) and (orientation: landscape) {
-  .heros { min-height: auto; padding: calc(96px + env(safe-area-inset-top, 0px)) 0 150px; align-content: start; }
+  .heros { min-height: auto; padding: calc(116px + env(safe-area-inset-top, 0px)) 0 150px; align-content: start; }
   .heros-pied { position: static; margin-top: 20px; justify-content: flex-start; }
   .heros-copie { gap: 14px; }
   .heros h1 { font-size: 44px; }
@@ -542,6 +553,7 @@ html.intro body { overflow: hidden; }
 .intro-logo { width: min(62vw, 540px); clip-path: inset(0 100% 0 0); }
 .intro-logo .logo { width: 100% !important; height: auto; }
 .intro-ligne { position: absolute; left: 0; right: 0; bottom: 11vh; margin: 0; text-align: center; font-family: var(--titrage); font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); opacity: 0; }
+html.effets { scroll-behavior: auto; } /* Lenis anime le défilement ; en « smooth », chaque ScrollTrigger.refresh() fait hors du haut de page fausse les positions (galerie épinglée posée sur la section voisine) */
 .effets [data-reveal] { transition: none; }
 .effets .heros-fond .trajectoire path, .effets .heros-fond .trajectoire g, .effets .toits-bande svg polygon, .effets .toits-bande svg polyline { animation-play-state: running; }
 .mot { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }

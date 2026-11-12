@@ -82,6 +82,8 @@
       e.preventDefault(); modeRecherche(onglets[(i + k + onglets.length) % onglets.length].getAttribute('data-onglet'), true);
     });
   });
+  /* un filtre change la hauteur de la page : les repères de défilement (galerie épinglée, révélations) sont recalculés avant de descendre */
+  function recaler() { if (window.ScrollTrigger) window.ScrollTrigger.refresh(); }
   function filtrer(selecteur, d) { var n = 0; $$(selecteur).forEach(function (c) { var ok = !d || normaliser(c.getAttribute('data-lieu')).indexOf(d) !== -1; c.hidden = !ok; if (ok) n += 1; }); return n; }
   function montrerResultat(el, texte, action, mode, prefill) {
     el.innerHTML = '<span>' + texte + '</span><button type="button" class="lien-texte" data-demande="' + mode + '">' + action + '</button>';
@@ -103,7 +105,7 @@
         var texte = (d ? '<b>' + n + ' hébergement' + (n > 1 ? 's' : '') + '</b> pour « ' + echapper(memoire.destination) + ' »' : '<b>' + n + ' hébergements</b>') + periode + voy + '.';
         texte += n ? ' Choisissez-en un et appuyez sur Réserver.' : ' Aucun logement partenaire ici pour l’instant.';
         montrerResultat($('#resultat'), texte, n ? 'Conseillez-moi' : 'Décrire mon séjour à l’équipe KAZA', 'stay', { message: memoire.destination ? 'Destination souhaitée : ' + memoire.destination + '.' : '' });
-        aller($('#stay'));
+        recaler(); aller($('#stay'));
       } else if (m === 'tourisme') {
         var dt = normaliser(v('destination'));
         memoire = { destination: v('destination'), date: v('date'), participants: v('participants') };
@@ -113,8 +115,7 @@
         var tt = (dt ? '<b>' + nt + ' expérience' + (nt > 1 ? 's' : '') + '</b> pour « ' + echapper(memoire.destination) + ' »' : '<b>' + nt + ' expériences</b>') + quand + part + '.';
         tt += nt ? ' Choisissez-en une et appuyez sur Réserver.' : ' Aucune expérience partenaire ici pour l’instant.';
         montrerResultat($('#resultat-tourisme'), tt, nt ? 'Conseillez-moi' : 'Décrire l’expérience que je cherche', 'tourisme', { message: memoire.destination ? 'Destination souhaitée : ' + memoire.destination + '.' : '' });
-        if (window.ScrollTrigger) setTimeout(function () { window.ScrollTrigger.refresh(); }, 50);
-        aller($('#tourisme'));
+        recaler(); aller($('#tourisme'));
       } else if (m === 'immo') {
         ouvrir('immo', { prefill: { transaction: v('transaction'), typeBien: v('typeBien'), ville: v('ville') }, ouvreur: recherche.querySelector('[type="submit"]') });
       } else if (m === 'conciergerie') {
@@ -131,7 +132,14 @@
   var titre = $('#demande-titre'), poleEl = $('[data-pole]', panneau), introEl = $('[data-intro]', panneau), boutonEl = $('[data-bouton]', panneau), retour = $('[data-demande-retour]', panneau);
   var resume = $('[data-objet-resume]', panneau);
   var corps = $('.demande-corps', panneau);
-  var ouvert = false, ouvreur = null, mode = '', objetCle = '', depuisChoix = false, minuterie = null;
+  var ouvert = false, ouvreur = null, mode = '', objetCle = '', depuisChoix = false, minuterie = null, yOuverture = 0, aRetablir = false;
+  /* le retour d'historique qui ferme le panneau peut ramener la page à l'ancre de l'adresse (#stay…) : on repose la position d'ouverture */
+  function retablir() {
+    aRetablir = false;
+    var y = yOuverture;
+    var poser = function () { if (ouvert || Math.abs(window.scrollY - y) < 2) return; if (window.lenis) window.lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo({ top: y, behavior: 'instant' }); };
+    poser(); requestAnimationFrame(poser); setTimeout(poser, 80); setTimeout(poser, 300);
+  }
   function surTouche(e) {
     if (e.key === 'Escape') { e.preventDefault(); fermer(); return; }
     if (e.key !== 'Tab') return;
@@ -171,6 +179,7 @@
     clearTimeout(minuterie);
     if (!ouvert) {
       ouvreur = o.ouvreur || document.activeElement;
+      yOuverture = window.scrollY;
       panneau.hidden = false; fond.hidden = false;
       requestAnimationFrame(function () { panneau.classList.add('est-ouvert'); fond.classList.add('est-ouvert'); });
       document.body.classList.add('demande-ouverte');
@@ -199,6 +208,7 @@
     /* champs obligatoires de la variante (les champs cachés ne sont jamais exigés) */
     $$('input, select, textarea', form).forEach(function (c) { c.required = def.requis.indexOf(c.name) !== -1; });
     $('[data-libelle="contact"]', form).textContent = def.contact;
+    form.contact.setAttribute('inputmode', m === 'diaspora' || m === 'partenaire' ? 'text' : 'tel'); /* « WhatsApp ou courriel » : le pavé téléphonique n'a pas d'arobase */
     $('[data-libelle="message"]', form).textContent = def.message;
     form.message.placeholder = def.aide || '';
     titre.textContent = def.titre; poleEl.textContent = def.pole; introEl.textContent = def.intro; boutonEl.textContent = def.bouton;
@@ -213,11 +223,12 @@
     if (window.lenis) window.lenis.start();
     document.removeEventListener('keydown', surTouche);
     minuterie = setTimeout(function () { panneau.hidden = true; fond.hidden = true; }, reduit ? 0 : 450);
-    if (!viaHistorique && history.state && history.state.kazaDemande) { try { history.back(); } catch (err) { /* rien */ } }
+    if (viaHistorique) retablir();
+    else if (history.state && history.state.kazaDemande) { aRetablir = true; try { history.back(); } catch (err) { aRetablir = false; } }
     if (ouvreur && ouvreur.focus && document.contains(ouvreur)) ouvreur.focus({ preventScroll: true });
     depuisChoix = false;
   }
-  window.addEventListener('popstate', function () { if (ouvert) fermer(true); });
+  window.addEventListener('popstate', function () { if (ouvert) fermer(true); else if (aRetablir) retablir(); });
   window.kazaDemande = { ouvrir: ouvrir, fermer: fermer };
 
   document.addEventListener('click', function (e) {
@@ -229,7 +240,7 @@
     }
     if (e.target.closest('[data-demande-fermer]')) { e.preventDefault(); fermer(); return; }
     if (e.target.closest('[data-demande-retour]')) { e.preventDefault(); etape('choix'); focaliser(); return; }
-    if (e.target.closest('[data-objet-changer]')) { e.preventDefault(); var objet = OBJETS[objetCle]; fermer(); aller($('#' + (objet ? objet.pole : 'stay'))); }
+    if (e.target.closest('[data-objet-changer]')) { e.preventDefault(); var objet = OBJETS[objetCle]; fermer(); aRetablir = false; aller($('#' + (objet ? objet.pole : 'stay'))); }
   });
 
   /* ---------- validation ---------- */
@@ -244,6 +255,7 @@
       var mauvais = false, message = '';
       if (!vide && c.name === 'contact') { mauvais = souple ? !(tel.test(c.value) || courriel.test(c.value)) : !tel.test(c.value); message = souple ? 'Indiquez un numéro WhatsApp avec l’indicatif, ou une adresse de courriel.' : 'Indiquez un numéro WhatsApp complet, avec l’indicatif.'; }
       if (!vide && c.name === 'depart' && f.arrivee.value && c.value < f.arrivee.value) { mauvais = true; message = 'Le départ ne peut pas précéder l’arrivée.'; }
+      if (!vide && !mauvais && c.validity && (c.validity.rangeUnderflow || c.validity.rangeOverflow)) { mauvais = true; message = c.type === 'date' ? 'Choisissez une date à venir.' : 'Indiquez un nombre entre ' + c.min + ' et ' + c.max + '.'; }
       if (vide || mauvais) { ok = false; c.setAttribute('aria-invalid', 'true'); if (err) { err.textContent = vide ? 'Ce champ est nécessaire pour vous répondre.' : message; err.setAttribute('data-visible', ''); } }
       else { c.removeAttribute('aria-invalid'); if (err) err.removeAttribute('data-visible'); }
     });

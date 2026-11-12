@@ -91,7 +91,7 @@ const experience = (e) => `<article class="experience" data-lieu="${echapper(e.l
 </article>`;
 
 /* un champ du panneau ; `pour` = variantes qui l'affichent (« * » = toutes) */
-const champ = (nom, libelle, type = 'text', { pour = '*', aide = '', attrs = '', large = false, placeholder = '', classe = '' } = {}) => `<label class="champ${large ? ' champ--large' : ''}${classe ? ' ' + classe : ''}" data-pour="${pour}"><span><b data-libelle="${nom}">${libelle}</b><i class="requis" aria-hidden="true">*</i>${aide ? ` <i>${aide}</i>` : ''}</span>${type === 'textarea' ? `<textarea name="${nom}" ${attrs} placeholder="${placeholder}"></textarea>` : type === 'select' ? `<select name="${nom}" ${attrs}>${placeholder}</select>` : `<input type="${type}" name="${nom}" ${attrs} placeholder="${placeholder}" ${type === 'text' || type === 'email' ? 'autocomplete="on"' : ''}>`}<span class="erreur" aria-live="polite"></span></label>`;
+const champ = (nom, libelle, type = 'text', { pour = '*', aide = '', attrs = '', large = false, placeholder = '', classe = '' } = {}) => `<label class="champ${large ? ' champ--large' : ''}${classe ? ' ' + classe : ''}" data-pour="${pour}"><span><b data-libelle="${nom}">${libelle}</b><i class="requis" aria-hidden="true">*</i>${aide ? ` <i>${aide}</i>` : ''}</span>${type === 'textarea' ? `<textarea name="${nom}" ${attrs} placeholder="${placeholder}"></textarea>` : type === 'select' ? `<select name="${nom}" ${attrs}>${placeholder}</select>` : `<input type="${type}" name="${nom}" ${attrs} placeholder="${placeholder}" ${(type === 'text' || type === 'email') && !/autocomplete=/.test(attrs) ? 'autocomplete="on"' : ''}>`}<span class="erreur" aria-live="polite"></span></label>`;
 
 const html = `<!doctype html>
 <html lang="fr">
@@ -284,7 +284,7 @@ const html = `<!doctype html>
   <div class="fond-reliefs" aria-hidden="true">${reliefs({ largeur: 1600, hauteur: 300, opaciteArriere: .12, avant: RELIEF, arriere: GRIS })}</div>
   <div class="conteneur">
     <div data-reveal>
-      <p class="pole-nom" style="color:${CITRON}">KAZA DIASPORA</p>
+      <p class="pole-nom section-tete-pole" style="color:${CITRON}">KAZA DIASPORA</p>
       <h2 id="titre-diaspora">Vous vivez à l’étranger&#8239;? Préparez votre retour, votre séjour ou votre installation.</h2>
       <p class="secondaire" style="margin-top:14px;max-width:52ch;font-size:17px">Un seul interlocuteur ouvre les autres pôles&#8239;: hébergement, transferts, expériences, services, et un suivi centralisé de vos demandes, confirmations et documents.</p>
       <div class="actions-ligne"><button type="button" class="bouton" data-demande="diaspora">Préparer mon retour</button><p class="mention-claire">Réponse personnalisée de l’équipe KAZA. Aucun paiement à cette étape.</p></div>

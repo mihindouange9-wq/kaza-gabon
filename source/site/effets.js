@@ -35,7 +35,10 @@
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (ev) {
       var id = a.getAttribute('href'); if (id.length < 2) return; var cible = $(id); if (!cible) return;
-      ev.preventDefault(); window.kazaAller(cible, id === '#haut' ? 0 : -84); history.replaceState(null, '', id);
+      ev.preventDefault();
+      /* lien du menu mobile : Lenis est à l'arrêt tant que le menu est ouvert et ignore alors scrollTo ; on le relance avant de défiler */
+      if (lenis && lenis.isStopped && a.closest('.menu')) lenis.start();
+      window.kazaAller(cible, id === '#haut' ? 0 : -84); history.replaceState(null, '', id);
     });
   });
   var menu = $('.menu'), menuBouton = $('.menu-bouton');
@@ -204,7 +207,9 @@
     $('.section-tete', tourisme).appendChild(progres);
     var avionPiste = $('.piste-avion', progres), compteurPiste = $('.piste-compteur', progres);
     var deplacement = function () { return Math.max(0, piste.scrollWidth - piste.clientWidth); };
-    gsap.to(piste, { x: function () { return -deplacement(); }, ease: 'none', scrollTrigger: { trigger: tourisme, start: 'top top', end: function () { return '+=' + (deplacement() + innerHeight * .25); }, scrub: .8, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: function (st) { gsap.set(avionPiste, { x: st.progress * (progres.clientWidth - 70 - 28) }); compteurPiste.textContent = pad(Math.min(nExp, 1 + Math.floor(st.progress * nExp * .999))) + ' / ' + pad(nExp); } } });
+    /* le compteur suit les expériences affichées (la recherche peut en masquer) */
+    var majPiste = function (st) { var n = $$('.experience', piste).filter(function (e) { return !e.hidden; }).length; gsap.set(avionPiste, { x: st.progress * (progres.clientWidth - 70 - 28) }); compteurPiste.textContent = pad(Math.min(n, 1 + Math.floor(st.progress * n * .999))) + ' / ' + pad(n); };
+    gsap.to(piste, { x: function () { return -deplacement(); }, ease: 'none', scrollTrigger: { trigger: tourisme, start: 'top top', end: function () { return '+=' + (deplacement() + innerHeight * .25); }, scrub: .8, pin: true, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: majPiste, onRefresh: majPiste } });
     $$('.experience', piste).forEach(function (e) { var img = $('img', e); if (img) gsap.fromTo(img, { xPercent: -5 }, { xPercent: 5, ease: 'none', scrollTrigger: { trigger: tourisme, start: 'top top', end: function () { return '+=' + (deplacement() + innerHeight * .25); }, scrub: true } }); });
   } else {
     $$('.experience figure').forEach(function (f) { rideau(f, 20); });
